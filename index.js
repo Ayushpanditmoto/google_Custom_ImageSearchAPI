@@ -8,9 +8,9 @@ const port = 3000
 
 app.get('/', (req, res) => {
   res.status(200).json({
-    API: 'http://localhost:3000/search/[Yoursearchterm]',
-    Example: 'http://localhost:3000/search/cheese',
-    Post: 'http://localhost:3000/search',
+    API: 'https://google-custom-image-search-api.vercel.app/search/[Yoursearchterm]',
+    Example: 'https://google-custom-image-search-api.vercel.app/search/cheese',
+    Post: 'https://google-custom-image-search-api.vercel.app/search',
     search: 'cheese',
   })
 })
