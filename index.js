@@ -10,9 +10,26 @@ app.get('/', (req, res) => {
   res.status(200).json({
     API: 'http://localhost:3000/search/[Yoursearchterm]',
     Example: 'http://localhost:3000/search/cheese',
+    Post: 'http://localhost:3000/search',
+    search: 'cheese',
   })
 })
-
+app.post('/search', (req, res) => {
+  const search = req.body
+  const url = `https://www.google.com/search?q=${search}&tbm=isch`
+  request(url, (error, response, html) => {
+    if (!error && response.statusCode == 200) {
+      const $ = cheerio.load(html)
+      const images = []
+      $('img').each((i, el) => {
+        const src = $(el).attr('src')
+        images.push(src)
+      })
+      images.shift()
+      res.status(200).json(images)
+    }
+  })
+})
 app.get('/search/:name', (req, res) => {
   let name = req.params.name
   let url = `https://www.google.com/search?q=${name}&source=lnms&tbm=isch`
