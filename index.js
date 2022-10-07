@@ -7,12 +7,10 @@ const cheerio = require('cheerio')
 const port = 3000
 
 app.get('/', (req, res) => {
-  res
-    .status(200)
-    .json({
-      API: 'http://localhost:3000/search/[Yoursearchterm]',
-      Example: 'http://localhost:3000/search/cheese',
-    })
+  res.status(200).json({
+    API: 'http://localhost:3000/search/[Yoursearchterm]',
+    Example: 'http://localhost:3000/search/cheese',
+  })
 })
 
 app.get('/search/:name', (req, res) => {
@@ -22,10 +20,16 @@ app.get('/search/:name', (req, res) => {
     if (!error) {
       let $ = cheerio.load(html)
       let images = []
+      // Get all images
       $('img').each((i, image) => {
         images.push($(image).attr('src'))
       })
-      res.send(images)
+      //pop the first image as it is the google logo
+      images.shift()
+      //print in json
+      res.status(200).json({
+        images,
+      })
     }
   })
 })
